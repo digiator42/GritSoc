@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="700" viewBox="0 0 960 700" role="img" aria-label="GritShield diagram">
+  <rect width="960" height="700" fill="#010409" rx="16" stroke="#21262d" stroke-width="1"/>
+
+  <text x="480" y="42" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="bold" font-size="20" fill="#e3b341">🍽️ Grit Ecosystem</text>
+
+  <!-- spokes: center to satellites -->
+  <line x1="480" y1="390" x2="480" y2="170" stroke="#d29922" stroke-width="2" opacity="0.30"/>
+  <line x1="480" y1="390" x2="700" y2="390" stroke="#d29922" stroke-width="2" opacity="0.30"/>
+  <line x1="480" y1="390" x2="480" y2="610" stroke="#d29922" stroke-width="2" opacity="0.30"/>
+  <line x1="480" y1="390" x2="260" y2="390" stroke="#d29922" stroke-width="2" opacity="0.30"/>
+
+  <!-- forks between philosophers -->
+  <text x="635.6" y="243" text-anchor="middle" font-size="26" opacity="0.85">🍴</text>
+  <text x="635.6" y="554" text-anchor="middle" font-size="26" opacity="0.85">🍴</text>
+  <text x="324.4" y="554" text-anchor="middle" font-size="26" opacity="0.85">🍴</text>
+  <text x="324.4" y="243" text-anchor="middle" font-size="26" opacity="0.85">🍴</text>
+
+  <!-- satellite: top GritJira -->
+  <circle cx="480" cy="170" r="70" fill="#0d1117" stroke="#58a6ff" stroke-width="2"/>
+  <text x="480" y="165" text-anchor="middle" font-size="38">💼</text>
+  <text x="480" y="195" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="bold" font-size="13" fill="#58a6ff">GritJira</text>
+  <text x="480" y="211" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#8b949e">Project Mgmt</text>
+
+  <!-- satellite: right GritIRT -->
+  <circle cx="700" cy="390" r="70" fill="#0d1117" stroke="#58a6ff" stroke-width="2"/>
+  <text x="700" y="385" text-anchor="middle" font-size="38">🚨</text>
+  <text x="700" y="415" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="bold" font-size="13" fill="#58a6ff">GritIRT</text>
+  <text x="700" y="431" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#8b949e">Incident Response</text>
+
+  <!-- satellite: bottom CyberFlow -->
+  <circle cx="480" cy="610" r="70" fill="#0d1117" stroke="#58a6ff" stroke-width="2"/>
+  <text x="480" y="605" text-anchor="middle" font-size="38">🌊</text>
+  <text x="480" y="635" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="bold" font-size="13" fill="#58a6ff">CyberFlow</text>
+  <text x="480" y="651" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#8b949e">SOC Intel</text>
+
+  <!-- satellite: left LuxShield -->
+  <circle cx="260" cy="390" r="70" fill="#0d1117" stroke="#58a6ff" stroke-width="2"/>
+  <text x="260" y="385" text-anchor="middle" font-size="38">💠</text>
+  <text x="260" y="415" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="bold" font-size="13" fill="#58a6ff">LuxShield</text>
+  <text x="260" y="431" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" fill="#8b949e">eBPF Firewall</text>
+
+  <!-- center: GritShield table -->
+  <circle cx="480" cy="390" r="112" fill="#d29922" opacity="0.10"/>
+  <circle cx="480" cy="390" r="96" fill="#0d1117" stroke="#d29922" stroke-width="3"/>
+  <text x="480" y="398" text-anchor="middle" font-size="56">🛡️</text>
+  <text x="480" y="438" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="bold" font-size="19" fill="#e3b341">GritShield</text>
+  <text x="480" y="457" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" fill="#8b949e">Security-First Rust Framework</text>
+  <text x="480" y="345" text-anchor="middle" font-size="20">🍝</text>
+</svg>

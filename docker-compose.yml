@@ -1,0 +1,182 @@
+# GritSoc — the whole GritShield product stack behind one command.
+#
+#   docker compose up --build
+#
+# Build contexts point at the sibling repos under ../ because the backends
+# depend on Gritshield and the WASM frontends depend on Velo by path; the
+# workspace-root .dockerignore (..\.dockerignore) allowlists just those trees.
+#
+# Host port map (no collisions):
+#   8000  Admin Command Center (UI + API)
+#   8010  CyberFlow (logs-soc) backend       8011  CyberFlow console
+#   8020  LuxShield backend                  8021  LuxShield console
+#   8030  GritIRT backend                    8031  GritIRT console
+#   8040  GritJira backend                   8041  GritJira console
+#   5432  Postgres (internal only; not published)
+#
+# Backend URLs are baked into each browser console as http://127.0.0.1:<port>,
+# so they reach the published host ports. GritJira's Next server proxies /api/*
+# to the backend over the compose network instead.
+name: gritsoc
+
+services:
+  # ---------------------------------------------------------------- Postgres
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+      POSTGRES_DB: postgres
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/10-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  # -------------------------------------------------- Admin Command Center
+  acc:
+    build:
+      context: ../admin-command-center
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      ACC_BIND: 0.0.0.0
+      ACC_PORT: 8000
+      PG_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-admin}@postgres:5432/acc_db
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ------------------------------------------------------------- CyberFlow
+  cyberflow-backend:
+    build:
+      context: ..
+      dockerfile: logs-soc/backend/Dockerfile
+    ports:
+      - "8010:8010"
+    environment:
+      SOC_BIND: 0.0.0.0
+      SOC_PORT: 8010
+      SOC_DATABASE_URL: "sqlite:///data/logs_soc.db?mode=rwc"
+      SOC_API_KEY: ${SOC_API_KEY:-}
+    volumes:
+      - soc-data:/data
+    restart: unless-stopped
+
+  cyberflow-frontend:
+    build:
+      context: ..
+      dockerfile: logs-soc/frontend/Dockerfile
+      args:
+        SOC_API_URL: http://127.0.0.1:8010
+    ports:
+      - "8011:80"
+    depends_on:
+      cyberflow-backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # -------------------------------------------------------------- LuxShield
+  luxshield-backend:
+    build:
+      context: ..
+      dockerfile: LuxShield/backend/Dockerfile
+    ports:
+      - "8020:8020"
+    environment:
+      LUX_BIND: 0.0.0.0
+      LUX_PORT: 8020
+      LUX_SIM_PPS: ${LUX_SIM_PPS:-60}
+      LUX_API_KEY: ${LUX_API_KEY:-}
+      LUX_SPIKE_BPS: ${LUX_SPIKE_BPS:-250000}
+    restart: unless-stopped
+
+  luxshield-frontend:
+    build:
+      context: ..
+      dockerfile: LuxShield/frontend/Dockerfile
+      args:
+        LUX_API_URL: http://127.0.0.1:8020
+    ports:
+      - "8021:80"
+    depends_on:
+      luxshield-backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------- GritIRT
+  gritirt-backend:
+    build:
+      context: ../GritIRT/backend
+      dockerfile: Dockerfile
+    ports:
+      - "8030:8030"
+    environment:
+      IRT_BIND: 0.0.0.0
+      IRT_PORT: 8030
+      IRT_DATABASE_URL: "sqlite:///data/grit_irt.db?mode=rwc"
+      IRT_API_KEY: ${IRT_API_KEY:-}
+      IRT_DEDUP_WINDOW_MS: ${IRT_DEDUP_WINDOW_MS:-300000}
+      # Connectors wired to the in-network services (internal ports).
+      IRT_LUXSHIELD_URL: http://luxshield-backend:8020
+      IRT_CYBERFLOW_URL: http://cyberflow-backend:8010
+      IRT_ACC_URL: http://acc:8000
+    volumes:
+      - irt-data:/data
+    restart: unless-stopped
+
+  gritirt-frontend:
+    build:
+      context: ..
+      dockerfile: GritIRT/frontend/Dockerfile
+      args:
+        IRT_API_URL: http://127.0.0.1:8030
+    ports:
+      - "8031:80"
+    depends_on:
+      gritirt-backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # --------------------------------------------------------------- GritJira
+  gritjira-backend:
+    build:
+      context: ..
+      dockerfile: GritJira/backend/Dockerfile
+    ports:
+      - "8040:8040"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 8040
+      DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-admin}@postgres:5432/grit_jira
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      GRITSHIELD_ADMIN_USER: ${GRITSHIELD_ADMIN_USER:-admin}
+      GRITSHIELD_ADMIN_PASSWORD: ${GRITSHIELD_ADMIN_PASSWORD:-gritshield2026}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  gritjira-frontend:
+    build:
+      context: ../GritJira/frontend
+      dockerfile: Dockerfile
+      args:
+        # Server-side proxy target (browser calls the Next server, which proxies).
+        GRITJIRA_API_URL: http://gritjira-backend:8040
+    ports:
+      - "8041:3000"
+    depends_on:
+      - gritjira-backend
+    restart: unless-stopped
+
+volumes:
+  pg-data:
+  soc-data:
+  irt-data:
