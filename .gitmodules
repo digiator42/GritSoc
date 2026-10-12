@@ -1,0 +1,15 @@
+[submodule "admin-command-center"]
+	path = admin-command-center
+	url = https://github.com/digiator42/admin-command-center.git
+[submodule "logs-soc"]
+	path = logs-soc
+	url = https://github.com/digiator42/CyberFlow.git
+[submodule "LuxShield"]
+	path = LuxShield
+	url = https://github.com/digiator42/LuxShield.git
+[submodule "GritIRT"]
+	path = GritIRT
+	url = https://github.com/digiator42/GritIRT.git
+[submodule "GritJira"]
+	path = GritJira
+	url = https://github.com/digiator42/GritJira.git

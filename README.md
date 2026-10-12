@@ -1,13 +1,19 @@
 # GritSoc
 
 Docker orchestration for the entire GritShield product stack. One repo, one
-command, every service.
+command, every service. Each product lives in its own repo and is pulled in as
+a git submodule; the shared frameworks (`GritShield`, `Veloasm`) come from
+crates.io, so nothing else has to be checked out.
 
 <img src="./badges/grit-philosophers.svg" width="960" alt="GritShield dining philosophers diagram" />
 
 ```bash
+git clone --recurse-submodules https://github.com/digiator42/GritSoc.git
+cd GritSoc
 docker compose up --build
 ```
+
+(Already cloned without submodules? Run `git submodule update --init --recursive`.)
 
 Then open:
 
@@ -25,25 +31,21 @@ Then open:
 
 ## Layout
 
-This repo contains only Docker orchestration. It builds the sibling projects
-under `..` (the shared workspace):
+This repo contains the Docker orchestration plus the product repos as
+submodules. Every build context is self-contained (framework deps resolve from
+crates.io), so `git submodule update --init --recursive` is all you need:
 
 ```
-workspace/
-├── admin-command-center/   # Rust + Postgres
-├── logs-soc/               # CyberFlow: Rust backend + WASM frontend
-├── LuxShield/              # Rust backend + WASM frontend
-├── GritIRT/                # Rust backend + WASM frontend
-├── GritJira/               # Rust backend + Next.js frontend
-├── Gritshield/             # framework (path dep for SOC + GritJira backends)
-├── Velo/                   # frontend framework (path dep for WASM frontends)
-└── GritSoc/                # <- this repo (docker only)
+GritSoc/
+├── admin-command-center/   # submodule: Rust + Postgres
+├── logs-soc/               # submodule: CyberFlow — Rust backend + WASM frontend
+├── LuxShield/              # submodule: Rust backend + WASM frontend
+├── GritIRT/                # submodule: Rust backend + WASM frontend
+├── GritJira/               # submodule: Rust backend + Next.js frontend
+├── postgres/init.sql       # creates acc_db + grit_jira
+├── docker-compose.yml
+└── badges/
 ```
-
-Because the SOC/GritJira backends depend on `Gritshield` and the WASM frontends
-depend on `Velo` by path, the compose build contexts point at the workspace root
-(`..`) and rely on the workspace-root `.dockerignore` to keep the context small.
-All siblings must be checked out alongside `GritSoc`.
 
 ## Ports
 

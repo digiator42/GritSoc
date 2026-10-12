@@ -1,10 +1,12 @@
 # GritSoc — the whole GritShield product stack behind one command.
 #
+#   git clone --recurse-submodules https://github.com/digiator42/GritSoc.git
+#   cd GritSoc
 #   docker compose up --build
 #
-# Build contexts point at the sibling repos under ../ because the backends
-# depend on Gritshield and the WASM frontends depend on Velo by path; the
-# workspace-root .dockerignore (..\.dockerignore) allowlists just those trees.
+# Every service is a git submodule of this repo (checked out under ./), so each
+# build context is self-contained: the backends pull GritShield from crates.io
+# and the WASM frontends pull Veloasm from crates.io.
 #
 # Host port map (no collisions):
 #   8000  Admin Command Center (UI + API)
@@ -40,8 +42,7 @@ services:
   # -------------------------------------------------- Admin Command Center
   acc:
     build:
-      context: ../admin-command-center
-      dockerfile: Dockerfile
+      context: ./admin-command-center
     ports:
       - "8000:8000"
     environment:
@@ -56,8 +57,7 @@ services:
   # ------------------------------------------------------------- CyberFlow
   cyberflow-backend:
     build:
-      context: ..
-      dockerfile: logs-soc/backend/Dockerfile
+      context: ./logs-soc/backend
     ports:
       - "8010:8010"
     environment:
@@ -71,8 +71,7 @@ services:
 
   cyberflow-frontend:
     build:
-      context: ..
-      dockerfile: logs-soc/frontend/Dockerfile
+      context: ./logs-soc/frontend
       args:
         SOC_API_URL: http://127.0.0.1:8010
     ports:
@@ -85,8 +84,8 @@ services:
   # -------------------------------------------------------------- LuxShield
   luxshield-backend:
     build:
-      context: ..
-      dockerfile: LuxShield/backend/Dockerfile
+      context: ./LuxShield
+      dockerfile: backend/Dockerfile
     ports:
       - "8020:8020"
     environment:
@@ -99,8 +98,7 @@ services:
 
   luxshield-frontend:
     build:
-      context: ..
-      dockerfile: LuxShield/frontend/Dockerfile
+      context: ./LuxShield/frontend
       args:
         LUX_API_URL: http://127.0.0.1:8020
     ports:
@@ -113,8 +111,7 @@ services:
   # ---------------------------------------------------------------- GritIRT
   gritirt-backend:
     build:
-      context: ../GritIRT/backend
-      dockerfile: Dockerfile
+      context: ./GritIRT/backend
     ports:
       - "8030:8030"
     environment:
@@ -133,8 +130,7 @@ services:
 
   gritirt-frontend:
     build:
-      context: ..
-      dockerfile: GritIRT/frontend/Dockerfile
+      context: ./GritIRT/frontend
       args:
         IRT_API_URL: http://127.0.0.1:8030
     ports:
@@ -147,8 +143,7 @@ services:
   # --------------------------------------------------------------- GritJira
   gritjira-backend:
     build:
-      context: ..
-      dockerfile: GritJira/backend/Dockerfile
+      context: ./GritJira/backend
     ports:
       - "8040:8040"
     environment:
@@ -165,8 +160,7 @@ services:
 
   gritjira-frontend:
     build:
-      context: ../GritJira/frontend
-      dockerfile: Dockerfile
+      context: ./GritJira/frontend
       args:
         # Server-side proxy target (browser calls the Next server, which proxies).
         GRITJIRA_API_URL: http://gritjira-backend:8040
