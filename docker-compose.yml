@@ -42,13 +42,13 @@ services:
   # -------------------------------------------------- Admin Command Center
   acc:
     build:
-      context: ./admin-command-center
+      context: ./admin-command-center/backend
     ports:
       - "8000:8000"
     environment:
       ACC_BIND: 0.0.0.0
       ACC_PORT: 8000
-      PG_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-admin}@postgres:5432/acc_db
+      DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-admin}@postgres:5432/acc_db
       ACC_JWT_SECRET: ${ACC_JWT_SECRET:-acc-insecure-development-secret-change-me}
       # Downstream connectors (compose-network internal ports).
       ACC_LUXSHIELD_URL: http://luxshield-backend:8020
