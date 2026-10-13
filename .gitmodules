@@ -13,3 +13,6 @@
 [submodule "GritJira"]
 	path = GritJira
 	url = https://github.com/digiator42/GritJira.git
+[submodule "GritScan"]
+	path = GritScan
+	url = https://github.com/digiator42/GritScan.git
