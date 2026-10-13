@@ -28,6 +28,7 @@ Then open:
 | GritIRT backend API | http://localhost:8030 | Incident/playbook API |
 | GritJira console | http://localhost:8041 | Issue tracker UI |
 | GritJira backend API | http://localhost:8040 | Issue tracker API (Postgres) |
+| GritScan console | http://localhost:8051 | Attack surface scanner UI |
 | GritScan backend API | http://localhost:8050 | Attack surface scanner |
 
 ## Flow
@@ -75,6 +76,7 @@ Host ports are assigned to avoid collisions (the per-repo composes both used
 | 8040 | 8040 | gritjira-backend |
 | 8041 | 3000 | gritjira-frontend |
 | 8050 | 8050 | gritscan-backend |
+| 8051 | 80 | gritscan-frontend |
 
 Postgres is internal-only on the compose network (not published).
 

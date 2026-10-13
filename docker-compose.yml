@@ -130,6 +130,7 @@ services:
       IRT_LUXSHIELD_URL: http://luxshield-backend:8020
       IRT_CYBERFLOW_URL: http://cyberflow-backend:8010
       IRT_ACC_URL: http://acc:8000
+      IRT_GRITSCAN_URL: http://gritscan-backend:8050
     volumes:
       - irt-data:/data
     restart: unless-stopped
@@ -176,7 +177,37 @@ services:
       - gritjira-backend
     restart: unless-stopped
 
+  # --------------------------------------------------------------- GritScan
+  gritscan-backend:
+    build:
+      context: ./GritScan/backend
+    ports:
+      - "8050:8050"
+    environment:
+      GS_BIND: 0.0.0.0
+      GS_PORT: 8050
+      GS_DATABASE_URL: "sqlite:///data/gritscan.db?mode=rwc"
+      GS_API_KEY: ${GS_API_KEY:-}
+      GS_IRT_URL: http://gritirt-backend:8030
+      GS_IRT_API_KEY: ${IRT_API_KEY:-}
+    volumes:
+      - gritscan-data:/data
+    restart: unless-stopped
+
+  gritscan-frontend:
+    build:
+      context: ./GritScan/frontend
+      args:
+        GRITSCAN_API_URL: http://127.0.0.1:8050
+    ports:
+      - "8051:80"
+    depends_on:
+      gritscan-backend:
+        condition: service_healthy
+    restart: unless-stopped
+
 volumes:
   pg-data:
   soc-data:
   irt-data:
+  gritscan-data:
