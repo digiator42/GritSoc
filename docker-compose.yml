@@ -49,6 +49,12 @@ services:
       ACC_BIND: 0.0.0.0
       ACC_PORT: 8000
       PG_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-admin}@postgres:5432/acc_db
+      ACC_JWT_SECRET: ${ACC_JWT_SECRET:-acc-insecure-development-secret-change-me}
+      # Downstream connectors (compose-network internal ports).
+      ACC_LUXSHIELD_URL: http://luxshield-backend:8020
+      ACC_CYBERFLOW_URL: http://cyberflow-backend:8010
+      ACC_GRITIRT_URL: http://gritirt-backend:8030
+      ACC_GRITJIRA_URL: http://gritjira-backend:8040
     depends_on:
       postgres:
         condition: service_healthy
