@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640" viewBox="0 0 960 640" font-family="ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace">
+  <defs>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#3ddc97"/>
+    </marker>
+    <marker id="ah-warn" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#ffb020"/>
+    </marker>
+  </defs>
+
+  <rect x="0.5" y="0.5" width="959" height="639" rx="12" fill="#0a0e14" stroke="#232c3b"/>
+
+  <text x="32" y="40" font-size="20" font-weight="bold" fill="#d7dee9" font-family="-apple-system, 'Segoe UI', sans-serif">GritSoc — incident flow</text>
+  <text x="32" y="62" font-size="12" fill="#7d8ba1">sense &#8594; decide &#8594; act, watched by command</text>
+
+  <text x="20" y="94" font-size="11" letter-spacing="2" fill="#7d8ba1">SENSE</text>
+  <text x="340" y="94" font-size="11" letter-spacing="2" fill="#7d8ba1">DECIDE &#183; GritIRT</text>
+  <text x="660" y="94" font-size="11" letter-spacing="2" fill="#7d8ba1">ACT</text>
+
+  <!-- LEFT: sensors -->
+  <g>
+    <rect x="20" y="108" width="280" height="100" rx="8" fill="#11161f" stroke="#232c3b"/>
+    <text x="36" y="134" font-size="13" font-weight="bold" fill="#d7dee9" font-family="-apple-system, 'Segoe UI', sans-serif">CyberFlow</text>
+    <text x="36" y="154" font-size="11" fill="#3ddc97">:8010 &#183; log aggregation + threat intel</text>
+    <text x="36" y="172" font-size="11" fill="#7d8ba1">SSE stream + MCP get_active_threats</text>
+    <text x="36" y="190" font-size="11" fill="#7d8ba1">console :8011</text>
+  </g>
+  <g>
+    <rect x="20" y="224" width="280" height="100" rx="8" fill="#11161f" stroke="#232c3b"/>
+    <text x="36" y="250" font-size="13" font-weight="bold" fill="#d7dee9" font-family="-apple-system, 'Segoe UI', sans-serif">LuxShield</text>
+    <text x="36" y="270" font-size="11" fill="#3ddc97">:8020 &#183; XDP drops + WAF</text>
+    <text x="36" y="288" font-size="11" fill="#7d8ba1">SSE packet|drop|spike|block</text>
+    <text x="36" y="306" font-size="11" fill="#7d8ba1">console :8021</text>
+  </g>
+  <g>
+    <rect x="20" y="340" width="280" height="100" rx="8" fill="#11161f" stroke="#232c3b"/>
+    <text x="36" y="366" font-size="13" font-weight="bold" fill="#d7dee9" font-family="-apple-system, 'Segoe UI', sans-serif">GritScan</text>
+    <text x="36" y="386" font-size="11" fill="#3ddc97">:8050 &#183; port audit + vulns</text>
+    <text x="36" y="404" font-size="11" fill="#7d8ba1">alerts source: gritscan</text>
+    <text x="36" y="422" font-size="11" fill="#7d8ba1">no console (API only)</text>
+  </g>
+
+  <!-- CENTER: GritIRT -->
+  <g>
+    <rect x="340" y="108" width="280" height="332" rx="8" fill="#11161f" stroke="#1f8f66" stroke-width="1.5"/>
+    <text x="356" y="134" font-size="13" font-weight="bold" fill="#d7dee9" font-family="-apple-system, 'Segoe UI', sans-serif">GritIRT</text>
+    <text x="356" y="152" font-size="11" fill="#3ddc97">:8030 &#183; console :8031</text>
+    <rect x="352" y="164" width="256" height="58" rx="6" fill="#1a212d"/>
+    <text x="364" y="187" font-size="12" fill="#d7dee9" font-family="-apple-system, 'Segoe UI', sans-serif">1 &#183; alert inbox</text>
+    <text x="364" y="205" font-size="10" fill="#7d8ba1">dedup + correlate into incidents</text>
+    <rect x="352" y="230" width="256" height="58" rx="6" fill="#1a212d"/>
+    <text x="364" y="253" font-size="12" fill="#d7dee9" font-family="-apple-system, 'Segoe UI', sans-serif">2 &#183; incident + timeline</text>
+    <text x="364" y="271" font-size="10" fill="#7d8ba1">severity queue + audit trail</text>
+    <rect x="352" y="296" width="256" height="58" rx="6" fill="#1a212d"/>
+    <text x="364" y="319" font-size="12" fill="#d7dee9" font-family="-apple-system, 'Segoe UI', sans-serif">3 &#183; playbook (gated)</text>
+    <text x="364" y="337" font-size="10" fill="#7d8ba1">approve / reject destructive steps</text>
+    <rect x="352" y="362" width="256" height="58" rx="6" fill="#1a212d"/>
+    <text x="364" y="385" font-size="12" fill="#d7dee9" font-family="-apple-system, 'Segoe UI', sans-serif">4 &#183; postmortem</text>
+    <text x="364" y="403" font-size="10" fill="#7d8ba1">export markdown closure</text>
+  </g>
+
+  <!-- RIGHT: actions -->
+  <g>
+    <rect x="660" y="108" width="280" height="100" rx="8" fill="#11161f" stroke="#232c3b"/>
+    <text x="676" y="134" font-size="13" font-weight="bold" fill="#d7dee9" font-family="-apple-system, 'Segoe UI', sans-serif">Block at the NIC</text>
+    <text x="676" y="154" font-size="11" fill="#ffb020">LuxShield MCP</text>
+    <text x="676" y="172" font-size="11" fill="#7d8ba1">add_firewall_rule</text>
+    <text x="676" y="190" font-size="11" fill="#7d8ba1">XDP drop before sockets</text>
+  </g>
+  <g>
+    <rect x="660" y="224" width="280" height="100" rx="8" fill="#11161f" stroke="#232c3b"/>
+    <text x="676" y="250" font-size="13" font-weight="bold" fill="#d7dee9" font-family="-apple-system, 'Segoe UI', sans-serif">File the ticket</text>
+    <text x="676" y="270" font-size="11" fill="#ffb020">GritJira :8040</text>
+    <text x="676" y="288" font-size="11" fill="#7d8ba1">issues + sprints</text>
+    <text x="676" y="306" font-size="11" fill="#7d8ba1">console :8041</text>
+  </g>
+  <g>
+    <rect x="660" y="340" width="280" height="100" rx="8" fill="#11161f" stroke="#232c3b"/>
+    <text x="676" y="366" font-size="13" font-weight="bold" fill="#d7dee9" font-family="-apple-system, 'Segoe UI', sans-serif">Command</text>
+    <text x="676" y="386" font-size="11" fill="#ffb020">ACC :8000</text>
+    <text x="676" y="404" font-size="11" fill="#7d8ba1">flush · shutdown · users</text>
+    <text x="676" y="422" font-size="11" fill="#7d8ba1">same UI as below</text>
+  </g>
+
+  <!-- arrows: sense -> decide -->
+  <line x1="300" y1="158" x2="334" y2="158" stroke="#3ddc97" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text x="252" y="148" font-size="10" fill="#3ddc97">alerts</text>
+  <line x1="300" y1="274" x2="334" y2="274" stroke="#3ddc97" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text x="252" y="264" font-size="10" fill="#3ddc97">alerts</text>
+  <line x1="300" y1="390" x2="334" y2="390" stroke="#3ddc97" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text x="252" y="380" font-size="10" fill="#3ddc97">alerts</text>
+
+  <!-- arrows: decide -> act -->
+  <line x1="620" y1="158" x2="654" y2="158" stroke="#ffb020" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ah-warn)"/>
+  <text x="622" y="148" font-size="10" fill="#ffb020">block</text>
+  <line x1="620" y1="274" x2="654" y2="274" stroke="#ffb020" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ah-warn)"/>
+  <text x="622" y="264" font-size="10" fill="#ffb020">ticket</text>
+  <line x1="620" y1="390" x2="654" y2="390" stroke="#ffb020" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ah-warn)"/>
+  <text x="622" y="380" font-size="10" fill="#ffb020">command</text>
+
+  <!-- BOTTOM: command plane -->
+  <g>
+    <rect x="20" y="464" width="920" height="96" rx="8" fill="#11161f" stroke="#4da3ff" stroke-width="1.5"/>
+    <text x="36" y="492" font-size="13" font-weight="bold" fill="#d7dee9" font-family="-apple-system, 'Segoe UI', sans-serif">Admin Command Center · :8000</text>
+    <text x="36" y="512" font-size="11" fill="#7d8ba1">users · sessions · service heartbeat · control deck — watches every plane above</text>
+    <text x="36" y="532" font-size="11" fill="#7d8ba1">monitors sense &#183; audits decisions &#183; drives command</text>
+  </g>
+
+  <!-- legend -->
+  <line x1="32" y1="592" x2="72" y2="592" stroke="#3ddc97" stroke-width="1.5" marker-end="url(#ah)"/>
+  <text x="82" y="596" font-size="11" fill="#7d8ba1">event / SSE data</text>
+  <line x1="252" y1="592" x2="292" y2="592" stroke="#ffb020" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ah-warn)"/>
+  <text x="302" y="596" font-size="11" fill="#7d8ba1">action MCP / REST</text>
+  <text x="532" y="596" font-size="11" fill="#7d8ba1">consoles — :8011 :8021 :8031 :8041 :8000</text>
+</svg>

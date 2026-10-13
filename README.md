@@ -28,6 +28,16 @@ Then open:
 | GritIRT backend API | http://localhost:8030 | Incident/playbook API |
 | GritJira console | http://localhost:8041 | Issue tracker UI |
 | GritJira backend API | http://localhost:8040 | Issue tracker API (Postgres) |
+| GritScan backend API | http://localhost:8050 | Attack surface scanner |
+
+## Flow
+
+<img src="./badges/gritsoc-flow.svg" width="960" alt="GritSoc incident flow: sense, decide, act, command" />
+
+Sensors (CyberFlow, LuxShield, GritScan) emit alerts into GritIRT, which
+correlates them into incidents and drives gated playbooks — blocking at the
+NIC, filing GritJira tickets — while the Admin Command Center watches every
+plane. Solid edges are event/SSE data; dashed edges are MCP/REST actions.
 
 ## Layout
 
@@ -42,6 +52,7 @@ GritSoc/
 ├── LuxShield/              # submodule: Rust backend + WASM frontend
 ├── GritIRT/                # submodule: Rust backend + WASM frontend
 ├── GritJira/               # submodule: Rust backend + Next.js frontend
+├── GritScan/               # submodule: Rust backend (attack surface scanner)
 ├── postgres/init.sql       # creates acc_db + grit_jira
 ├── docker-compose.yml
 └── badges/
@@ -63,6 +74,7 @@ Host ports are assigned to avoid collisions (the per-repo composes both used
 | 8031 | 80 | gritirt-frontend |
 | 8040 | 8040 | gritjira-backend |
 | 8041 | 3000 | gritjira-frontend |
+| 8050 | 8050 | gritscan-backend |
 
 Postgres is internal-only on the compose network (not published).
 
